@@ -3,85 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maintenance Log - RBAC</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Maintenance Log System | Cloud</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>⚙️ Maintenance System</h1>
+        <h1>Maintenance Log</h1>
         <div class="role-selector">
-            <span>Mode: </span>
+            <span>🛡️ Access Mode:</span>
             <select id="roleToggle" onchange="switchRole()">
-                <option value="user">User (Pencatatan)</option>
-                <option value="admin">Admin (Manage Mesin)</option>
+                <option value="user">Operator / User</option>
+                <option value="admin">Administrator</option>
             </select>
         </div>
     </header>
     
     <section id="userSection" class="card">
-        <h2>Input Log Maintenance</h2>
+        <h2>📝 Input Maintenance Record</h2>
         <form id="maintenanceForm">
             <div class="grid-form">
                 <div class="form-group">
-                    <label>Tanggal</label>
+                    <label for="tanggal">Tanggal Kejadian</label>
                     <input type="date" id="tanggal" required>
                 </div>
                 <div class="form-group">
-                    <label>Pilih Mesin</label>
+                    <label for="select_mesin">Pilih Unit Mesin</label>
                     <select id="select_mesin" required>
-                        </select>
-                </div>
-                <div class="form-group">
-                    <label>Kategori</label>
-                    <select id="kategori">
-                        <option value="perbaikan">Perbaikan</option>
-                        <option value="sparepart">Ganti Sparepart</option>
-                        <option value="rutin">Rutin</option>
+                        <option value="">-- Memuat Mesin... --</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Teknisi</label>
-                    <input type="text" id="teknisi" required>
+                    <label for="kategori">Kategori Tindakan</label>
+                    <select id="kategori">
+                        <option value="perbaikan">🚨 Perbaikan / Kerusakan</option>
+                        <option value="sparepart">⚙️ Ganti Sparepart</option>
+                        <option value="rutin">📅 Maintenance Rutin</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="teknisi">Nama Teknisi</label>
+                    <input type="text" id="teknisi" placeholder="Contoh: Budi Santoso" required>
                 </div>
             </div>
-            <div class="form-group" style="margin-top: 15px;">
-                <label>Deskripsi</label>
-                <textarea id="deskripsi" rows="3" required></textarea>
+            <div class="form-group" style="margin-top: 20px;">
+                <label for="deskripsi">Deskripsi Detail Kegiatan</label>
+                <textarea id="deskripsi" rows="3" placeholder="Jelaskan detail kerusakan atau part yang diganti secara spesifik..." required></textarea>
             </div>
-            <button type="submit" id="btnSimpan" class="btn-primary">Kirim Laporan</button>
+            <div style="margin-top: 20px; text-align: right;">
+                <button type="submit" id="btnSimpan" class="btn-primary">Kirim Laporan ke Cloud</button>
+            </div>
         </form>
     </section>
 
-    <section id="adminSection" class="card hidden">
-        <h2 style="color: var(--danger);">Admin Panel: Tambah Unit Mesin</h2>
-        <form id="addMachineForm" class="grid-form">
-            <input type="text" id="new_machine_name" placeholder="Nama Mesin Baru" required>
-            <button type="submit" class="btn-admin">Tambah Mesin +</button>
+    <section id="adminSection" class="card hidden" style="border: 2px solid #6366f1; background: rgba(238, 242, 255, 0.5);">
+        <h2 style="color: #4338ca;">🏗️ Register New Machine Unit</h2>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 20px;">
+            Gunakan form ini untuk menambah daftar mesin baru ke dalam sistem agar bisa dipilih oleh operator.
+        </p>
+        <form id="addMachineForm">
+            <div class="grid-form" style="grid-template-columns: 2fr 1fr;">
+                <div class="form-group">
+                    <input type="text" id="new_machine_name" placeholder="Masukkan Nama atau ID Mesin Baru..." required>
+                </div>
+                <button type="submit" class="btn-admin">Tambah Unit +</button>
+            </div>
         </form>
     </section>
 
     <section class="card">
-        <h2>Riwayat Maintenance</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="margin: 0;">📊 Historical Maintenance Data</h2>
+            <button onclick="fetchLogs()" style="background: none; border: none; cursor: pointer; color: #2563eb; font-weight: 600; font-size: 0.8rem;">
+                🔄 Segarkan Data
+            </button>
+        </div>
+        
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
                         <th>Tanggal</th>
-                        <th>Mesin</th>
+                        <th>Unit Mesin</th>
                         <th>Kategori</th>
-                        <th>Deskripsi</th>
+                        <th>Detail Aktivitas</th>
                         <th>Teknisi</th>
                     </tr>
                 </thead>
-                <tbody id="logBody"></tbody>
+                <tbody id="logBody">
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #94a3b8; padding: 40px;">
+                            Menghubungkan ke database...
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </section>
+
+    <footer style="text-align: center; color: #94a3b8; font-size: 0.75rem; margin-top: 40px; padding-bottom: 20px;">
+        &copy; 2026 Maintenance System Cloud - Connected to Supabase
+    </footer>
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
