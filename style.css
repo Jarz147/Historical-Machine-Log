@@ -1,24 +1,175 @@
-/* ... (Gunakan CSS sebelumnya, lalu tambahkan ini) ... */
+:root {
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #2563eb 100%);
+    --secondary-bg: #f1f5f9;
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --warning: #f59e0b;
+}
 
-.hidden { display: none !important; }
+body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #eef2ff;
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.1) 0px, transparent 50%);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
 
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+}
+
+/* Role Selector Styling */
 .role-selector {
-    margin-top: 10px;
-    background: #e2e8f0;
-    padding: 10px;
+    margin-top: 15px;
+    background: white;
+    padding: 8px 15px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #e2e8f0;
+}
+
+#roleToggle {
+    border: none;
+    font-weight: 600;
+    color: #4338ca;
+    cursor: pointer;
+    outline: none;
+}
+
+/* Card Styling */
+.card {
+    background: var(--card-bg);
+    padding: 30px;
     border-radius: 20px;
-    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+}
+
+h2 {
+    color: var(--text-main);
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Form Styling */
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input, select, textarea {
+    background: #f8fafc;
+    border: 2px solid #f1f5f9;
+    padding: 12px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #6366f1;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+/* Button Styling */
+.btn-primary {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
 }
 
 .btn-admin {
-    background-color: #1e293b;
+    background: #1e293b;
     color: white;
     border: none;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: 600;
 }
 
-.badge-perbaikan { background: #fee2e2; color: #b91c1c; }
-.badge-sparepart { background: #dcfce7; color: #15803d; }
-.badge-rutin { background: #fef9c3; color: #a16207; }
+/* Badge Styling */
+.badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.badge-perbaikan { background: #fee2e2; color: #dc2626; }
+.badge-sparepart { background: #dcfce7; color: #16a34a; }
+.badge-rutin { background: #fef9c3; color: #ca8a04; }
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+}
+
+th {
+    padding: 15px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+td {
+    background: white;
+    padding: 15px;
+}
+
+td:first-child { border-radius: 12px 0 0 12px; }
+td:last-child { border-radius: 0 12px 12px 0; }
+
+.hidden { display: none !important; }
