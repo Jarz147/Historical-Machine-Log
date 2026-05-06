@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historical Mesin - Supabase Cloud</title>
+    <title>Maintenance Log - RBAC</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -11,47 +11,60 @@
 
 <div class="container">
     <header>
-        <h1>⚙️ Maintenance Log</h1>
-        <p>Sistem Pencatatan Historical Mesin Berbasis Cloud</p>
+        <h1>⚙️ Maintenance System</h1>
+        <div class="role-selector">
+            <span>Mode: </span>
+            <select id="roleToggle" onchange="switchRole()">
+                <option value="user">User (Pencatatan)</option>
+                <option value="admin">Admin (Manage Mesin)</option>
+            </select>
+        </div>
     </header>
     
-    <section class="card">
-        <h2>Input Log Baru</h2>
+    <section id="userSection" class="card">
+        <h2>Input Log Maintenance</h2>
         <form id="maintenanceForm">
             <div class="grid-form">
                 <div class="form-group">
-                    <label for="tanggal">Tanggal</label>
+                    <label>Tanggal</label>
                     <input type="date" id="tanggal" required>
                 </div>
                 <div class="form-group">
-                    <label for="nama_mesin">Nama/ID Mesin</label>
-                    <input type="text" id="nama_mesin" placeholder="Contoh: CNC-01" required>
+                    <label>Pilih Mesin</label>
+                    <select id="select_mesin" required>
+                        </select>
                 </div>
                 <div class="form-group">
-                    <label for="kategori">Kategori</label>
+                    <label>Kategori</label>
                     <select id="kategori">
                         <option value="perbaikan">Perbaikan</option>
                         <option value="sparepart">Ganti Sparepart</option>
-                        <option value="rutin">Maintenance Rutin</option>
+                        <option value="rutin">Rutin</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="teknisi">Teknisi</label>
-                    <input type="text" id="teknisi" placeholder="Nama Petugas" required>
+                    <label>Teknisi</label>
+                    <input type="text" id="teknisi" required>
                 </div>
             </div>
             <div class="form-group" style="margin-top: 15px;">
-                <label for="deskripsi">Deskripsi Detail</label>
-                <textarea id="deskripsi" rows="3" placeholder="Detail kerusakan atau part yang diganti..." required></textarea>
+                <label>Deskripsi</label>
+                <textarea id="deskripsi" rows="3" required></textarea>
             </div>
-            <button type="submit" id="btnSimpan" class="btn-primary">Simpan ke Cloud</button>
+            <button type="submit" id="btnSimpan" class="btn-primary">Kirim Laporan</button>
+        </form>
+    </section>
+
+    <section id="adminSection" class="card hidden">
+        <h2 style="color: var(--danger);">Admin Panel: Tambah Unit Mesin</h2>
+        <form id="addMachineForm" class="grid-form">
+            <input type="text" id="new_machine_name" placeholder="Nama Mesin Baru" required>
+            <button type="submit" class="btn-admin">Tambah Mesin +</button>
         </form>
     </section>
 
     <section class="card">
-        <div class="table-header">
-            <h2>Riwayat Maintenance</h2>
-        </div>
+        <h2>Riwayat Maintenance</h2>
         <div class="table-container">
             <table>
                 <thead>
@@ -63,8 +76,7 @@
                         <th>Teknisi</th>
                     </tr>
                 </thead>
-                <tbody id="logBody">
-                    </tbody>
+                <tbody id="logBody"></tbody>
             </table>
         </div>
     </section>
